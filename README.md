@@ -5,14 +5,7 @@ This repository is for setting up a thermal imaging-based edge computing system 
 ## Contents of the Files 
 
 ### Tutorial 
-The tutorial contains the objective of this system, a list of the components used, step by step process of putting the hardware components together, and the configuration of the system.
+The tutorial PDF outlines the system's objective, lists the components used, provides a step-by-step process for assembling the hardware components, and explains the system's configuration on the Raspberry Pi.
 
-
-
-
-
-provided here contains the objective of this system, the components used, step by step process of putting the hardware components together, and the configuration of the system. 
-
-
-Tablk about the hw setup and the CNN for. Emphasizing thr importance as well the coding section 
-
+### Training Script 
+The Python file contains the script that is used to train the alogrithm that is used to detect occupants in the designated spaces 
