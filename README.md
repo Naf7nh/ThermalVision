@@ -13,9 +13,26 @@ The tutorial PDF outlines the system's objective, lists the components used, pro
   * Instructions for using the system with Python **(Recommended)** 
 * Recommendations for courses relevant to this work 
 
-### Dataset Organization Script 
-This Python script contains the 
+### Dataset Creation Script 
+This Python script contains the provisions for the following:
+* Creating the training and validation dataste directories
+* Creating the subfolders for the training and validation datasets
+* Functions to read the PGM images and parse that information for each image into CSV files
+* Splitting the entire dataset based on the desired training/validation split and randomly assigning images into each dataset
 
+Please ensure that the Images folder is created before running this script. An example of the Image folder is provided below:
+- 📂 Images
+  - 📂 0 People
+  - 📂 1 Person
+  - 📂 2 People
+  - 📂 3 People
+  - 📂 4 People
 
+**IMPORTANT** This script should be used only when splitting the images into the training and validation datasets. Each time this script is executed, the images will be randomly assigned to the training or validation set. No two runs will result in the same allocation. The CSV files generated should be saved and used until a new split is desired. 
 
-The Python file contains the script that is used to train the alogrithm that is used to detect occupants in the designated spaces 
+### CNN Creation  
+The Python file contains the script used to train the algorithm that detects occupants in the designated spaces and includes the following:
+* A function to parse the image information from the training and validation dataset CSVs
+* Functions to define the validation image augmentation and model creation
+* Model training block
+* Functionality to save the trained model and output a converted model file suitable for the Raspberry Pi  
