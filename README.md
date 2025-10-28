@@ -1,6 +1,6 @@
 # ThermalVision
 
-This repository is for setting up a thermal imaging-based edge computing system using a Raspberry Pi and a FLIR Lepton thermal camera. The objective of this repository is to provide step-by-step guidance on how to set up a thermal imaging-based edge computing system using Raspberry Pi and develop an algorithm for occupancy detection in buildings. This repository comprises two main components: a tutorial detailing the hardware portion and the Python code for creating a CNN to detect up to 4 people in an image. The published paper for this repository can be found [here](https://doi.org/10.1016/j.buildenv.2025.113871)
+This repository is for setting up a thermal imaging-based edge computing system using a Raspberry Pi and a FLIR Lepton thermal camera. The objective of this repository is to provide step-by-step guidance on how to set up a thermal imaging-based edge computing system using Raspberry Pi and develop an algorithm for occupancy detection in buildings. This repository comprises three main components: a tutorial detailing the hardware, a script for creating the training and validation datasets, and a script for training a CNN to detect up to 4 people in an image. The published paper for this repository can be found [here](https://doi.org/10.1016/j.buildenv.2025.113871)
 
 ## Contents of the Files 
 
@@ -13,5 +13,9 @@ The tutorial PDF outlines the system's objective, lists the components used, pro
   * Instructions for using the system with Python **(Recommended)** 
 * Recommendations for courses relevant to this work 
 
-### Training Script 
+### Dataset Organization Script 
+This Python script contains the 
+
+
+
 The Python file contains the script that is used to train the alogrithm that is used to detect occupants in the designated spaces 
