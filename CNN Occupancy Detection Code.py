@@ -15,6 +15,7 @@ from numpy import hstack
 from tensorflow.keras import optimizers, losses
 from tensorflow.keras.optimizers import RMSprop
 from tensorflow.keras.optimizers import Adam
+import time
 
 def parse_data_from_input(filename):
   """
@@ -56,20 +57,20 @@ def train_val_generators(training_images, training_labels, validation_images, va
   validation_images = np.expand_dims(validation_images, axis = 3)
 
   train_datagen = ImageDataGenerator(
-      rescale = 1./255.,           # was 65535
-      rotation_range=25,            # best was 20, was 5, previous set 40, then 20, then 10 and 0(maybe switch back???)
-      width_shift_range=0.05,        # best was 0, was 0.05, previous 0.1
-      height_shift_range=0.05,       # best was 0, was 0.05, previous 0.2
-      shear_range=0.05,              # best was 0, was 0.05, previous 0
-      zoom_range=0,               # best was 0
-      horizontal_flip= True,         # was True
-      vertical_flip= False,           # best was False, was True
+      rescale = 1./255.,           
+      rotation_range=25,            
+      width_shift_range=0.05,        
+      height_shift_range=0.05,       
+      shear_range=0.05,              
+      zoom_range=0,               
+      horizontal_flip= True,         
+      vertical_flip= False,           
       fill_mode='nearest')
 
 
   train_generator = train_datagen.flow(x=training_images,
                                         y=training_labels,
-                                        batch_size=16)       # was 40 w/ 0.8 ,,,,was 16
+                                        batch_size=16)       
 
   validation_datagen = ImageDataGenerator(rescale = 1./255.)        # was 65535
 
@@ -84,26 +85,26 @@ def create_model():
     model = tf.keras.models.Sequential([
         # This is the first convolution
         tf.keras.layers.Conv2D(8, (3,3), activation='relu', input_shape=(60, 80, 1)), # Input shape = (Rows, columns, and channel)
-        tf.keras.layers.MaxPooling2D(2,2),                     # was(2,2)
+        tf.keras.layers.MaxPooling2D(2,2),                     
         # tf.keras.layers.Dropout(0.1),
         # The second convolution
-        tf.keras.layers.Conv2D(16, (3,3), activation='relu'),   # was 64, (3,3)
-        tf.keras.layers.MaxPooling2D(2,2),                      # was (2,2)
+        tf.keras.layers.Conv2D(16, (3,3), activation='relu'),   
+        tf.keras.layers.MaxPooling2D(2,2),                      
         # tf.keras.layers.Dropout(0.2),
         # third convolution
-        tf.keras.layers.Conv2D(32, (3,3), activation='relu'),  # was 64, (3,3)
-        tf.keras.layers.MaxPooling2D(2,2),                      # was (2,2)
+        tf.keras.layers.Conv2D(32, (3,3), activation='relu'),  
+        tf.keras.layers.MaxPooling2D(2,2),                      
         # tf.keras.layers.Dropout(0.3),
         tf.keras.layers.Flatten(),
         tf.keras.layers.Dropout(0.5),  # Dropout for regularization
-        tf.keras.layers.Dense(512, activation='relu'),     # 512 best, then 256
+        tf.keras.layers.Dense(512, activation='relu'),     
         tf.keras.layers.Dense(5, activation='softmax')
     ])
     
     model.summary()
     
-    # optimizer = RMSprop(learning_rate = 0.00004)       # was 5e-5 w/ 65535
-    optimizer = Adam(learning_rate = 0.0009105)       # was 5e-5 w/ 65535
+    # optimizer = RMSprop(learning_rate = 0.00004)       
+    optimizer = Adam(learning_rate = 0.0009105)       
     
     model.compile(optimizer = optimizer,
                   loss = 'sparse_categorical_crossentropy',
@@ -123,7 +124,7 @@ validation_images, validation_labels = parse_data_from_input(VALIDATION_FILE)
 train_generator, validation_generator = train_val_generators(training_images, training_labels, validation_images, validation_labels)
 
 #%% Graph Section - Finished
-import time
+
 
 start = time.time()
 
@@ -162,6 +163,26 @@ for i in range(1):
     # ax3.plot(epochs, val_acc, color, label=graph_label) 
     # ax4.plot(epochs, val_loss, color)
     
+
+
+# This section below saves and converts the model into a format suitable for running on the Raspberry Pi 
+
+Model_number = 1                                                                                       #Change this number each time
+model.save('XXX/XXXX/XXXX/my_modelv'+str(Model_number), save_format='tf')                              #Change the directory to point to the folder where the models are saved
+saved_model_path = 'XXX/XXXX/XXXX/my_modelv'+str(Model_number)                          
+
+# Convert the SavedModel to TensorFlow Lite format
+converter = tf.lite.TFLiteConverter.from_saved_model(saved_model_path)
+tflite_model = converter.convert()
+
+# Save the TensorFlow Lite model to a file
+output_file_path = 'XXX/XXXX/XXXX/modelv'+str(Model_number)+'.tflite'                        #Change this file name each time
+try:
+    with open(output_file_path, 'wb') as f:
+        f.write(tflite_model)
+    print(f"TensorFlow Lite model saved successfully to {output_file_path}")
+except Exception as e:
+    print(f"Error saving TensorFlow Lite model: {e}")
 
 
 
