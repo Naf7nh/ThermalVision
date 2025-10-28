@@ -123,8 +123,6 @@ validation_images, validation_labels = parse_data_from_input(VALIDATION_FILE)
 # ------------------------ Test your generators ------------------------------
 train_generator, validation_generator = train_val_generators(training_images, training_labels, validation_images, validation_labels)
 
-#%% Graph Section - Finished
-
 
 start = time.time()
 
@@ -157,13 +155,8 @@ for i in range(1):
     epochs = range(len(acc))
     ax1.plot(epochs, acc, color, label=graph_label)       #BLUE IS VALIDATION ON GRAPH
     ax2.plot(epochs, loss, color)
-    # plt.legend(graph_label)
     ax1.plot(epochs, val_acc, 'b') 
     ax2.plot(epochs, val_loss, 'b')
-    # ax3.plot(epochs, val_acc, color, label=graph_label) 
-    # ax4.plot(epochs, val_loss, color)
-    
-
 
 # This section below saves and converts the model into a format suitable for running on the Raspberry Pi 
 
@@ -183,6 +176,7 @@ try:
     print(f"TensorFlow Lite model saved successfully to {output_file_path}")
 except Exception as e:
     print(f"Error saving TensorFlow Lite model: {e}")
+
 
 
 
